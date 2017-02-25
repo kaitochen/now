@@ -4,6 +4,9 @@
 	<meta charset="utf-8">
 	<meta name="viewport"  content='width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no'>
 	<title>LOGIN</title>
+	<script type="text/javascript" src='../src/jquery.min.js'></script>
+	<script type="text/javascript" src='../src/vue.min.js'></script>
+	<link rel="stylesheet" type="text/css" href="../style/common.css">
 	<style type="text/css">
 		*{
 			margin: 0;
@@ -57,8 +60,13 @@
 			text-align: right;
 			/*color: #000;*/
 		}
+		.Mes{
+			width: 100%;
+			text-align: center;
+			color: #f00;
+		}
 		#btn{
-			margin-top: 20%; 
+			margin-top: 15%; 
 		}
 		#btn div{
 			width: 70%;
@@ -78,7 +86,7 @@
 	</style>
 </head>
 <body>
-<div class='cover'>
+<div id='page' class='cover'>
 	<section id='title'>
 		<h1>暨时</h1>
 		<p>your best choice</p>
@@ -86,16 +94,19 @@
 	<section id='form'>
 		<div id='name'>
 			<span>账号</span>
-			<input type="text" name="name">
+			<input type="text" name="name" v-model='userName' maxlength='10' >
 		</div>
 		<div id='key'>
 			<span>密码</span>
-			<input type="password" name="key">
+			<input type="password" name="key" v-model='userKey'>
 		</div>
 	</section>
+	<section class='Mes'>
+		<p>{{errorMes}}</p>
+	</section>
 	<section id='btn'>
-		<div id='login'>LOGIN</div>
-		<div id='signIn' onclick='goSignIn()'>SIGN IN</div>
+		<div id='login' v-on:click='goLogin'>LOGIN</div>
+		<div id='signIn' v-on:click='goSignIn'>SIGN IN</div>
 	</section> 
 </div>
 </body>
@@ -105,8 +116,45 @@
 		var Page=document.getElementsByTagName('body')[0];
 		Page.style.width=wid+'px';
 		Page.style.height=hei+'px';
-		function goSignIn(){
-			window.location.href='signIn.html';
-		}
+	</script>
+	<script type="text/javascript">
+		var page=new Vue({
+			el: '#page',
+			data:{
+				userName:'',
+				userKey: '',
+				errorMes: ''
+			},
+			methods:{
+				goLogin:function(){
+					var thisPage=this
+					if(this.userName==''||this.userKey==''){
+						this.errorMes='请输入账号跟密码！'
+					}else if(this.userName.length!==10||isNaN(this.userName)){
+						this.errorMes='请输入正确的账号'
+					}else{
+						this.errorMes=''
+						$.ajax({
+							type: 'POST',
+							url: '../api/api.php',
+							data: {type:'login',name: this.userName,key: this.userKey},
+							dataType: 'json',
+							success: function(res){
+								if(res.code==0){
+									window.location.href='home.html'
+								}else{
+									console.log('error')
+									thisPage.errorMes=res.mes
+								}
+							}
+						})
+					}
+					
+				},
+				goSignIn:function(){
+
+				}
+			}
+		})
 	</script>
 </html>
