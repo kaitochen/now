@@ -41,13 +41,37 @@
 				$resultList= array('code' => 2, 'mes'=> '请先注册！');
 				echo json_encode($resultList);
 			}
-			mysqli_close();
+			// mysqli_close();
 		}else{
 			mysqli_close();
 			echo 'connect error';
 		}
 	}
 	function signIn(){
-
+		include_once('config.php');
+		$id=$_POST['id'];
+		$key=$_POST['key'];
+		$name=$_POST['name'];
+		$phone=$_POST['phone'];
+		$major=$_POST['major'];
+		$connect=mysqli_connect($server,$myname,$mypsw,'now');
+		if($connect){
+			$sql='INSERT INTO `user` (`userid`,`userkey`) VALUES ('.$id.', '.$key.')';
+			$result=mysqli_query($connect,$sql);
+			echo var_dump($result);
+			// if($result==true){
+			// 	echo 'true';
+			// }eles if($result==false){
+			// 	echo 'false';
+			// }
+			// if(is_object($ss)){
+			// 	echo 'success';
+			// }else{
+			// 	echo 'fail';
+			// }
+		}else{
+			mysqli_close();
+			echo 'connect error';
+		}
 	}
  ?>
