@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport"  content='width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no'>
+	<title>SIGN IN</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+			font-family: '微软雅黑';
+		}
+		body{
+			background-color: rgb(135,206,255);
+			color: #fff;
+		}
+		input{
+			width: 80%;
+			background-color: rgba(255,255,255,0);
+			border: 0;
+			height: 30px;
+			font-size: 16px;
+			font-family: '黑体';
+			color: #fff;
+			border-bottom: 1px solid #fff;
+		}
+		#title{
+			width: 100%;
+			height: 100px;
+			line-height: 100px;
+			text-align: center;
+		}
+		#form{
+			height: 40%;
+			padding-top: 10%;
+		}
+		#id,#key,#name,#major{
+			width: 80%;
+			margin: 0 auto;
+			height: 30px;
+			line-height: 30px;
+			margin-bottom: 10px;
+		}
+		#id span,#key span,#name span,#major span{
+			display: inline-block;
+			/*line-height: 35px;*/
+		}
+		#signIn{
+			width: 80%;
+			height: 40px;
+			margin: 0 auto;
+			border: 2px solid #fff;
+			border-radius: 22px;
+			text-align: center;
+			line-height: 40px;
+			margin-top: 50px;
+		}
+	</style>
+</head>
+<body>
+	<section id='title'>
+		<h1>SIGN IN</h1>
+	</section>
+	<section id='form'>
+		<div id='id'>
+			<span>账号:</span>
+			<input type="text" name="id">
+		</div>		
+		<div id='key'>
+			<span>密码:</span>
+			<input type="password" name="key">
+		</div>		
+		<div id='name'>
+			<span>姓名:</span>
+			<input type="text" name="name">
+		</div>		
+		<div id='major'>
+			<span>专业:</span>
+			<input type="text" name="major">
+		</div>
+	</section>
+	<section id='btn'>
+		<div id='signIn'>
+			SIGN IN
+		</div>
+	</section>
+</body>
+	<script type="text/javascript">
+		var wid=window.innerWidth;
+		var hei=window.innerHeight;
+		var Page=document.getElementsByTagName('body')[0];
+		Page.style.width=wid+'px';
+		Page.style.height=hei+'px';
+	</script>
+</html>

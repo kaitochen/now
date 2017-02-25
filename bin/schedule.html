@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name='viewport' content='width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no'>
+	<title>SCHEDULE</title>
+	<script type="text/javascript" src='../src/jquery.min.js'></script>
+	<script type="text/javascript" src='../src/vue.min.js'></script>
+	<link rel="stylesheet" type="text/css" href="../style/common.css">
+	<style type="text/css">
+		header h3{
+			width: 4.5rem;
+		}
+		.addIcon{
+			background-image: url('../img/addIcon.png');
+			background-size: 100% 100%;
+			width: 0.8rem;
+			height: 0.8rem;
+			margin: 0.1rem;
+			float: right;
+		}
+	</style>
+</head>
+<body>
+<div id='page'>
+	<header>
+		<div id='menuIcon' ></div>
+		<div class='addIcon'></div>
+		<h3>手札</h3>
+	</header>
+	<nav>
+		<ul>
+			<li v-on:click='GoHome'>home</li>
+			<li>手札</li>
+			<li>show</li>
+			<li>mine</li>
+		</ul>
+	</nav>
+	<section>
+		<div class="list" v-for='item in listArray'>
+			<div class='listBtn'>
+				{{item}}
+			</div>
+			<div>
+				
+			</div>
+			<div>
+				
+			</div>
+		</div>
+	</section>
+	<section>
+		<h2 v-on:click='testPhp'>{{name}}</h2>
+	</section>
+</div>
+</body>
+<script type="text/javascript">
+		var Page=new Vue({
+			el: '#page',
+			data:{
+				name: '123',
+				listArray: []
+			},
+			methods:{
+				pageOnload:function(){
+				},
+				GoHome:function(){
+					window.location.href='home.html'
+				},
+				testPhp:function(){
+					var thisData=this
+					console.log(thisData.name)
+					$.ajax({
+						type: 'POST',
+						url: '../api/test/php',
+						data: {type:'test',name: this.name},
+						dateType: 'json',
+						success: function(msg){
+							console.log(msg)
+						}
+					})
+				}
+			}
+		});
+		Page.pageOnload();
+</script>
+<script type="text/javascript" src='../src/common.js'></script>
+</html>
