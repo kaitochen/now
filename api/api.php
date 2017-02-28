@@ -55,6 +55,7 @@
 		$phone=$_POST['phone'];
 		$major=$_POST['major'];
 		$connect=mysqli_connect($server,$myname,$mypsw,'now');
+		mysqli_query($connect,'set names "utf8"');
 		if($connect){
 			$sql='SELECT * FROM `user` WHERE `userid`='.$id;
 			$checkResult=mysqli_query($connect,$sql);
@@ -62,10 +63,10 @@
 				$mes= array('code' => 1 , 'mes'=> '该账号已经被注册了！');	
 				echo json_encode($mes);
 			}else{
-				$sql1='INSERT INTO `user` (`userid`,`userkey`) VALUES ('.$id.', '.$key.')';
+				$sql1='INSERT INTO `user` (`userid`,`userkey`) VALUES ('.$id.', "'.$key.'")';
 				$result=mysqli_query($connect,$sql1);
 				if($result==true){
-					$sql2='INSERT INTO `userinfo` (`userId`,`userName`,`userPhone`,`userMajor`,`userTeacher`) VALUES ('.$id.',"'.$name.'",'.$phone.',"'.$major.'","jack")';
+					$sql2='INSERT INTO `userinfo` (`userId`,`userName`,`userPhone`,`userMajor`) VALUES ('.$id.',"'.$name.'",'.$phone.',"'.$major.'")';
 					
 					$result1=mysqli_query($connect,$sql2);
 						if($result1==true){
