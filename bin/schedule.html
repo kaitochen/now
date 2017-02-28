@@ -19,6 +19,85 @@
 			margin: 0.1rem;
 			float: right;
 		}
+		.list{
+			width: 7.5rem;
+			height: 1.5rem;
+			background-color: #fff;
+			margin: 0.1rem 0;
+			box-shadow: 0 0 0.03rem 0.03rem #eee;
+		}
+		.listBtn{
+			float: left;
+			width: 1.5rem;
+			height: 1.5rem;
+			background-color: #fff;
+		}
+		.listBtn>div{
+			width: 0.6rem;
+			height: 0.6rem;
+			margin: 0.4rem;
+			border-radius: 0.35rem;
+			border: 0.05rem solid #87ceff;
+		}
+		.listContent{
+			float: left;
+			width: 5.4rem;
+			height: 1.5rem;
+			background-color: #fff;
+			border-right: 0.5rem solid #87ceff;
+			border-left: 0.1rem solid #87ceff;
+		}
+		.listContent p:nth-child(1){
+			width: 5.5rem;
+			height: 0.5rem;
+			line-height: 1rem;
+			text-align: center;
+		}
+		.listContent p:nth-child(2){
+			width: 5.5rem;
+			height: 1rem;
+			line-height: 1rem;
+			text-align: center;
+		}
+		.finish{
+			width: 7.5rem;
+			height: 1.5rem;
+			background-color: #fff;
+			margin: 0.1rem 0;
+			box-shadow: 0 0 0.03rem 0.03rem #eee;
+		}
+		.finishBtn{
+			float: left;
+			width: 1.5rem;
+			height: 1.5rem;
+		}
+		.finishBtn div{
+			width: 0.7rem;
+			height: 0.7rem;
+			margin: 0.4rem;
+			background-image: url('../img/finish.png');
+			background-size: 100% 100%;
+		}
+		.finishContent{
+			float: left;
+			width: 5.4rem;
+			height: 1.5rem;
+			border-left: 0.1rem solid #a2b4ba;
+			border-right: 0.5rem solid #a2b4ba;
+			background-color: #fff;
+		}
+		.finishContent p:nth-child(1){
+			width: 5.5rem;
+			height: 0.5rem;
+			line-height: 1rem;
+			text-align: center;
+		}
+		.finishContent p:nth-child(2){
+			width: 5.5rem;
+			height: 1rem;
+			line-height: 1rem;
+			text-align: center;
+		}
 	</style>
 </head>
 <body>
@@ -37,20 +116,92 @@
 		</ul>
 	</nav>
 	<section>
-		<div class="list" v-for='item in listArray'>
+		<div class="list" >
 			<div class='listBtn'>
-				{{item}}
+				<div></div>
 			</div>
-			<div>
-				
+			<div class='listContent'>
+				<p>2017.02.28</p>
+				<p>晚上7点到南海楼503做实验</p>
 			</div>
-			<div>
-				
+			<div class='listDelete'>
+				<div></div>
+			</div>
+		</div>
+		<div class="list" >
+			<div class='listBtn'>
+				<div></div>
+			</div>
+			<div class='listContent'>
+				<p>2017.02.28</p>
+				<p>到实验室做实验</p>
+			</div>
+			<div class='listDelete'>
+				<div></div>
+			</div>
+		</div>
+		<div class="list" >
+			<div class='listBtn'>
+				<div></div>
+			</div>
+			<div class='listContent'>
+				<p>2017.02.28</p>
+				<p>到实验室做实验</p>
+			</div>
+			<div class='listDelete'>
+				<div></div>
+			</div>
+		</div>
+		<div class="list" >
+			<div class='listBtn'>
+				<div></div>
+			</div>
+			<div class='listContent'>
+				<p>2017.02.28</p>
+				<p>到实验室做实验</p>
+			</div>
+			<div class='listDelete'>
+				<div></div>
 			</div>
 		</div>
 	</section>
 	<section>
-		<h2 v-on:click='testPhp'>{{name}}</h2>
+		<div class='finish'>
+			<div class='finishBtn'>
+				<div></div>
+			</div>
+			<div class='finishContent'>
+				<p>2017.02.28</p>
+				<p>到实验室做实验</p>
+			</div>
+		</div>
+		<div class='finish'>
+			<div class='finishBtn'>
+				<div></div>
+			</div>
+			<div class='finishContent'>
+				<p>2017.02.28</p>
+				<p>到实验室做实验</p>
+			</div>
+		</div>
+		<div class='finish'>
+			<div class='finishBtn'>
+				<div></div>
+			</div>
+			<div class='finishContent'>
+				<p>2017.02.28</p>
+				<p>到实验室做实验</p>
+			</div>
+		</div>
+		<div class='finish'>
+			<div class='finishBtn'>
+				<div></div>
+			</div>
+			<div class='finishContent'>
+				<p>2017.02.28</p>
+				<p>到实验室做实验</p>
+			</div>
+		</div>
 	</section>
 </div>
 </body>
@@ -72,7 +223,7 @@
 					console.log(thisData.name)
 					$.ajax({
 						type: 'POST',
-						url: '../api/test/php',
+						url: '../api/api.php',
 						data: {type:'test',name: this.name},
 						dateType: 'json',
 						success: function(msg){
