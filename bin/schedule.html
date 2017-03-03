@@ -8,6 +8,11 @@
 	<script type="text/javascript" src='../src/vue.min.js'></script>
 	<link rel="stylesheet" type="text/css" href="../style/common.css">
 	<style type="text/css">
+		header{
+			position: fixed;
+			top: 0;
+			z-index: 10;
+		}
 		header h3{
 			width: 4.5rem;
 		}
@@ -19,11 +24,38 @@
 			margin: 0.1rem;
 			float: right;
 		}
+		.tab{
+			height: 1rem;
+			width: 7.5rem;
+			position: fixed;
+			top: 1rem;
+			z-index: 10;
+		}
+		.tab p{
+			width: 3.75rem;
+			height: 1rem;
+			text-align: center;
+			line-height: 1rem;
+			float: left;
+			background-color: #fff;
+		}
+		#ing{
+			border-bottom: 2px solid #87ceff;
+		}
+		.project{
+			position: absolute;
+			top: 2rem;
+			left: 0;
+			width: 7.5rem;
+			overflow: hidden;
+		}
 		.list{
 			width: 7.5rem;
 			height: 1.5rem;
 			background-color: #fff;
 			margin: 0.1rem 0;
+			overflow: hidden;
+			/*position: relative;*/
 			box-shadow: 0 0 0.03rem 0.03rem #eee;
 		}
 		.listBtn{
@@ -58,6 +90,18 @@
 			height: 1rem;
 			line-height: 1rem;
 			text-align: center;
+		}
+		.listDelete{
+			position: absolute;
+			left: 7.5rem;
+			width: 7.5rem;
+			height: 1.5rem;
+			background-color: rgba(0,0,0,0.7);
+		}
+		.finished{
+			position: absolute;
+			top: 2rem;
+			display: none;
 		}
 		.finish{
 			width: 7.5rem;
@@ -115,7 +159,107 @@
 			<li>mine</li>
 		</ul>
 	</nav>
-	<section>
+	<section class='tab'>
+		<p id='ing'>ING</p>
+		<p id='finished'>FINISHED</p>
+	</section>
+	<section class='project'>
+		<div class="list" >
+			<div class='listBtn'>
+				<div></div>
+			</div>
+			<div class='listContent'>
+				<p>2017.02.28</p>
+				<p>晚上7点到南海楼503做实验</p>
+			</div>
+			<div class='listDelete'>
+				<div></div>
+			</div>
+		</div>
+		<div class="list" >
+			<div class='listBtn'>
+				<div></div>
+			</div>
+			<div class='listContent'>
+				<p>2017.02.28</p>
+				<p>到实验室做实验</p>
+			</div>
+			<div class='listDelete'>
+				<div></div>
+			</div>
+		</div>
+		<div class="list" >
+			<div class='listBtn'>
+				<div></div>
+			</div>
+			<div class='listContent'>
+				<p>2017.02.28</p>
+				<p>到实验室做实验</p>
+			</div>
+			<div class='listDelete'>
+				<div></div>
+			</div>
+		</div>
+		<div class="list" >
+			<div class='listBtn'>
+				<div></div>
+			</div>
+			<div class='listContent'>
+				<p>2017.02.28</p>
+				<p>到实验室做实验</p>
+			</div>
+			<div class='listDelete'>
+				<div></div>
+			</div>
+		</div>		
+		<div class="list" >
+			<div class='listBtn'>
+				<div></div>
+			</div>
+			<div class='listContent'>
+				<p>2017.02.28</p>
+				<p>晚上7点到南海楼503做实验</p>
+			</div>
+			<div class='listDelete'>
+				<div></div>
+			</div>
+		</div>
+		<div class="list" >
+			<div class='listBtn'>
+				<div></div>
+			</div>
+			<div class='listContent'>
+				<p>2017.02.28</p>
+				<p>到实验室做实验</p>
+			</div>
+			<div class='listDelete'>
+				<div></div>
+			</div>
+		</div>
+		<div class="list" >
+			<div class='listBtn'>
+				<div></div>
+			</div>
+			<div class='listContent'>
+				<p>2017.02.28</p>
+				<p>到实验室做实验</p>
+			</div>
+			<div class='listDelete'>
+				<div></div>
+			</div>
+		</div>
+		<div class="list" >
+			<div class='listBtn'>
+				<div></div>
+			</div>
+			<div class='listContent'>
+				<p>2017.02.28</p>
+				<p>到实验室做实验</p>
+			</div>
+			<div class='listDelete'>
+				<div></div>
+			</div>
+		</div>
 		<div class="list" >
 			<div class='listBtn'>
 				<div></div>
@@ -165,7 +309,7 @@
 			</div>
 		</div>
 	</section>
-	<section>
+	<section class='finished'>
 		<div class='finish'>
 			<div class='finishBtn'>
 				<div></div>
@@ -206,14 +350,35 @@
 </div>
 </body>
 <script type="text/javascript">
+	$(function(){
+		$('#ing').on('touchstart',function(){
+			$('.project').show();
+			$(this).css({borderBottom:'2px solid #87ceff'});
+			$('#finished').css({borderBottom: '0'});
+			$('.finished').hide();
+		})
+		$('#finished').on('touchstart',function(){
+			$(this).css({borderBottom:'2px solid #87ceff'});
+			$('#ing').css({borderBottom: '0'});
+			$('.project').hide();
+			$('.finished').show();
+		})
+	})
+</script>
+<script type="text/javascript">
 		var Page=new Vue({
 			el: '#page',
 			data:{
 				name: '123',
-				listArray: []
-			},
+				listArray: [],
+				finishArray: []
+				},
 			methods:{
 				pageOnload:function(){
+					$.ajax({
+						type: 'POST',
+						
+					})
 				},
 				GoHome:function(){
 					window.location.href='home.html'

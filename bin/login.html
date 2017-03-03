@@ -141,6 +141,8 @@
 							dataType: 'json',
 							success: function(res){
 								if(res.code==0){
+									localStorage.userid=thisPage.userId
+									localStorage.userkey=thisPage.userKey
 									window.location.href='home.html'
 								}else{
 									console.log('error')

@@ -42,7 +42,8 @@
 			width: 7.5rem;
 			height: 1.1rem;
 			margin-top: 0.2rem;
-			position:absolute;
+			position:fixed;
 			top: 1rem;
 			left: -7.5rem;
+			z-index: 20;
 		}
