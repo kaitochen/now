@@ -11,12 +11,6 @@
 			signIn();
 		break;
 	}
-	function getName(){
-		$name=$_POST['name'];
-		$list = array('anana' => 'asdasd','asidjaoisjd'=>135435 );
-		$arr=array('name' => $list,'key'=> 25641654654 );
-		echo json_encode($arr);
-	}
 	function login(){
 		include_once('config.php');
 		$name=$_POST['name'];

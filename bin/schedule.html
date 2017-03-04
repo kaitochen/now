@@ -173,7 +173,8 @@
 				<p>晚上7点到南海楼503做实验</p>
 			</div>
 			<div class='listDelete'>
-				<div></div>
+				<span><img src="../img/delete2.png"></span>
+				<span><img src="../img/cancel2.png"></span>
 			</div>
 		</div>
 		<div class="list" >
@@ -347,6 +348,23 @@
 			</div>
 		</div>
 	</section>
+	<section class='inputCard'>		
+		<div>
+			<p>时间</p>
+			<input type="text" name="">
+		</div>		
+		<div>
+			<p>内容</p>
+			<input type="text" name="">
+		</div>
+		<div>
+			<input type="checkbox" name="">
+			<p>完成时是否通知老师</p>
+		</div>
+		<div>
+			<p>send</p>
+		</div>
+	</section>
 </div>
 </body>
 <script type="text/javascript">
@@ -354,12 +372,12 @@
 		$('#ing').on('touchstart',function(){
 			$('.project').show();
 			$(this).css({borderBottom:'2px solid #87ceff'});
-			$('#finished').css({borderBottom: '0'});
+			$('#finished').css({borderBottom: '2px solid #fff'});
 			$('.finished').hide();
 		})
 		$('#finished').on('touchstart',function(){
 			$(this).css({borderBottom:'2px solid #87ceff'});
-			$('#ing').css({borderBottom: '0'});
+			$('#ing').css({borderBottom: '2px solid #fff'});
 			$('.project').hide();
 			$('.finished').show();
 		})
@@ -371,13 +389,22 @@
 			data:{
 				name: '123',
 				listArray: [],
-				finishArray: []
+				finishArray: [],
+				userid:''
 				},
 			methods:{
+				getUser:function(){
+					
+				},
 				pageOnload:function(){
 					$.ajax({
 						type: 'POST',
-						
+						url: '../api/api.php',
+						data: {type:'getSchedule',userid: this.userid},
+						dataType: 'json',
+						success: function(msg){
+
+						}
 					})
 				},
 				GoHome:function(){
