@@ -10,6 +10,12 @@
 		case 'signIn':
 			signIn();
 		break;
+		case 'add':
+			setSchedule();
+		break;
+		case 'finish':
+			finishSchedule();
+		break;
 	}
 	function login(){
 		include_once('config.php');
@@ -77,6 +83,50 @@
 				}
 			}
 			
+		}else{
+			mysqli_close();
+			echo 'connect error';
+		}
+	}
+	function setSchedule(){
+		include_once('config.php');
+		// $id=$_POST['id'];
+		// $time=$_POST['time'];
+		// $content=$_POST['content'];
+		// $notice=$_POST['notice'];
+		$con=mysqli_connect($server,$myname,$mypsw,'now');
+		mysqli_query($con,'set names "utf8"');
+		if($con){
+			$sql='INSERT INTO `plan` (`userid`,`time`,`content`) VALUES ("2013051976","20170309","只是试试而已")';
+			$insertResult=mysqli_query($con,$sql);
+			if($insertResult==true){
+				$mes= array('code' => 0, 'mes'=> '添加成功');
+				echo json_encode($mes);
+			}else if($insertResult==false){
+				$mes=array('code'=>1,'mes'=>'添加失败');
+			}
+		}else{
+			mysqli_close();
+			echo 'connect error';
+		}
+	}
+	function finishSchedule(){
+		include_once('config.php');
+		// $id=$_POST['id'];
+		// $time=$_POST['time'];
+		// $content=$_POST['content'];
+		// $notice=$_POST['notice'];
+		$con=mysqli_connect($server,$myname,$mypsw,'now');
+		mysqli_query($con,'set names "utf8"');
+		if($con){
+			$sql='UPDATE `plan` SET `finish`=1 WHERE `userid`=2013051976';
+			$insertResult=mysqli_query($con,$sql);
+			if($insertResult==true){
+				$mes= array('code' => 0, 'mes'=> '修改成功');
+				echo json_encode($mes);
+			}else if($insertResult==false){
+				$mes=array('code'=>1,'mes'=>'修改失败');
+			}
 		}else{
 			mysqli_close();
 			echo 'connect error';

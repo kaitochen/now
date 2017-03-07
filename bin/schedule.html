@@ -148,7 +148,7 @@
 <div id='page'>
 	<header>
 		<div id='menuIcon' ></div>
-		<div class='addIcon'></div>
+		<div class='addIcon' v-on:click='add'></div>
 		<h3>手札</h3>
 	</header>
 	<nav>
@@ -165,7 +165,7 @@
 	</section>
 	<section class='project'>
 		<div class="list" >
-			<div class='listBtn'>
+			<div class='listBtn' v-on:click='finish'>
 				<div></div>
 			</div>
 			<div class='listContent'>
@@ -396,6 +396,28 @@
 				getUser:function(){
 					
 				},
+				add:function(){
+					$.ajax({
+						type: 'POST',
+						url: '../api/api.php',
+						data:{type:'add'},
+						dataType: 'json',
+						success:function(msg){
+							console.log(msg);
+						}
+					})
+				},
+				finish:function(){
+					$.ajax({
+						type: 'POST',
+						url: '../api/api.php',
+						data:{type:'finish'},
+						dataType: 'json',
+						success:function(msg){
+							console.log(msg);
+						}
+					})
+				},
 				pageOnload:function(){
 					$.ajax({
 						type: 'POST',
@@ -425,7 +447,7 @@
 				}
 			}
 		});
-		Page.pageOnload();
+		// Page.pageOnload();
 </script>
 <script type="text/javascript" src='../src/common.js'></script>
 </html>
