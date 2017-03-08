@@ -429,11 +429,22 @@
 						}
 					})
 				},
-				pageOnload:function(){
+				unfinishOnload:function(){
 					$.ajax({
 						type: 'POST',
 						url: '../api/api.php',
 						data: {type:'getSchedule'},
+						dataType: 'json',
+						success: function(msg){
+							console.log(msg);
+						}
+					})
+				},
+				finishOnload:function(){
+					$.ajax({
+						type: 'POST',
+						url: '../api/api.php',
+						data: {type:'getFinish'},
 						dataType: 'json',
 						success: function(msg){
 							console.log(msg);
@@ -458,7 +469,8 @@
 				}
 			}
 		});
-		Page.pageOnload();
+		Page.unfinishOnload();
+		Page.finishOnload();
 </script>
 <script type="text/javascript" src='../src/common.js'></script>
 </html>
