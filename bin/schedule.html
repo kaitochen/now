@@ -433,10 +433,10 @@
 					$.ajax({
 						type: 'POST',
 						url: '../api/api.php',
-						data: {type:'getSchedule',userid: this.userid},
+						data: {type:'getSchedule'},
 						dataType: 'json',
 						success: function(msg){
-
+							console.log(msg);
 						}
 					})
 				},
@@ -458,7 +458,7 @@
 				}
 			}
 		});
-		// Page.pageOnload();
+		Page.pageOnload();
 </script>
 <script type="text/javascript" src='../src/common.js'></script>
 </html>

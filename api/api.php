@@ -10,8 +10,11 @@
 		case 'signIn':
 			signIn();
 		break;
+		case 'getSchedule':
+			getSchedule();
+		break;
 		case 'add':
-			setSchedule();
+			addSchedule();
 		break;
 		case 'finish':
 			finishSchedule();
@@ -90,8 +93,37 @@
 			mysqli_close();
 			echo 'connect error';
 		}
+	} 
+	function getSchedule(){
+		include_once('config.php');
+		$con=mysqli_connect($server,$myname,$mypsw,'now');
+		mysqli_query($con,'set names "utf8"');
+		if($con){
+			$sql='SELECT * FROM `plan` WHERE `userid`=2013051976 AND `finish`=0';
+			$result=mysqli_query($con,$sql);
+			if(is_object(mysqli_fetch_object($result))){
+				$mess=array();
+				$mes=array('code'=>0);
+				$i=0;
+				while($row=mysqli_fetch_object($result)){
+					$mess['id']=$row->id;
+					$mess['userid']=$row->userid;
+					$mess['content']=$row->content;
+					$mess['time']=$row->time;
+					$mes[$i]=$mess;
+				}
+				echo json_encode($mes);
+				// echo json_encode(mysqli_fetch_object($result));
+			}else{
+				$mes=array('code'=>1,'mes'=>'查询失败');
+				echo json_encode($mes);
+			}
+		}else{
+			mysqli_close();
+			echo 'connect fail';
+		}
 	}
-	function setSchedule(){
+	function addSchedule(){
 		include_once('config.php');
 		// $id=$_POST['id'];
 		// $time=$_POST['time'];
@@ -100,7 +132,7 @@
 		$con=mysqli_connect($server,$myname,$mypsw,'now');
 		mysqli_query($con,'set names "utf8"');
 		if($con){
-			$sql='INSERT INTO `plan` (`userid`,`time`,`content`) VALUES ("2013051976","20170309","只是试试而已")';
+			$sql='INSERT INTO `plan` (`userid`,`time`,`content`) VALUES ("2013051976","20170322","试试而已")';
 			$insertResult=mysqli_query($con,$sql);
 			if($insertResult==true){
 				$mes= array('code' => 0, 'mes'=> '添加成功');
