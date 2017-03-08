@@ -178,7 +178,7 @@
 			</div>
 		</div>
 		<div class="list" >
-			<div class='listBtn'>
+			<div class='listBtn' v-on:click='deleteSchedule'>
 				<div></div>
 			</div>
 			<div class='listContent'>
@@ -401,6 +401,17 @@
 						type: 'POST',
 						url: '../api/api.php',
 						data:{type:'add'},
+						dataType: 'json',
+						success:function(msg){
+							console.log(msg);
+						}
+					})
+				},
+				deleteSchedule:function(){
+					$.ajax({
+						type: 'POST',
+						url: '../api/api.php',
+						data:{type:'delete'},
 						dataType: 'json',
 						success:function(msg){
 							console.log(msg);

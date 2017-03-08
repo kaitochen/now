@@ -16,6 +16,9 @@
 		case 'finish':
 			finishSchedule();
 		break;
+		case 'delete':
+			deleteSchedule();
+		break;
 	}
 	function login(){
 		include_once('config.php');
@@ -119,7 +122,7 @@
 		$con=mysqli_connect($server,$myname,$mypsw,'now');
 		mysqli_query($con,'set names "utf8"');
 		if($con){
-			$sql='UPDATE `plan` SET `finish`=1 WHERE `userid`=2013051976';
+			$sql='UPDATE `plan` SET `finish`=0 WHERE `userid`=2013051976 AND `id`=2';
 			$insertResult=mysqli_query($con,$sql);
 			if($insertResult==true){
 				$mes= array('code' => 0, 'mes'=> '修改成功');
@@ -130,6 +133,25 @@
 		}else{
 			mysqli_close();
 			echo 'connect error';
+		}
+	}
+	function deleteSchedule(){
+		include_once('config.php');
+		$con=mysqli_connect($server,$myname,$mypsw,'now');
+		mysqli_query($con,'set names "utf8"');
+		if($con){
+			$sql='DELETE FROM `plan` WHERE `id`=2';
+			$result=mysqli_query($con,$sql);
+			if($result==true){
+				$mes=array('code'=>0,'mes'=>'删除成功');
+				echo json_encode($mes);	
+			}else if($result==false){
+				$mes=array('code'=>1,'mes'=>'删除失败');
+				echo json_encode($mes);
+			}
+		}else{
+			mysqli_close();
+			echo 'connect fail';
 		}
 	}
  ?>
