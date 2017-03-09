@@ -128,7 +128,11 @@
 					$.ajax({
 						type: 'POST',
 						url: '../api/api.php',
+<<<<<<< HEAD
 						data: {type: 'addNote',title:'关于实验室的安排',time:time,content: '今天就是不算收到哦啊胡搜的好书的',noteType: 0},
+=======
+						data: {type: 'addNote',title:'关于实验室的安排',time:time,content: '今天就是不算收到哦啊胡搜的好书的',type: 0},
+>>>>>>> origin/master
 						dataType: 'json',
 						success: function(msg){
 							console.log(msg);
