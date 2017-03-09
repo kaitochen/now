@@ -54,7 +54,7 @@
 			<ul>
 				<li>home</li>
 				<li v-on:click='GoSchedule'>手札</li>
-				<li>show</li>
+				<li v-on:click='GoNote'>暨论</li>
 				<li>mine</li>
 			</ul>
 		</nav>
@@ -88,6 +88,9 @@
 				},
 				GoSchedule:function(){
 					window.location.href='schedule.html'
+				},
+				GoNote:function(){
+					window.location.href='note.html'
 				}
 				
 			}

@@ -13,6 +13,9 @@
 		case 'getSchedule':
 			getSchedule();
 		break;
+		case 'getFinish':
+			getFinish();
+		break;
 		case 'add':
 			addSchedule();
 		break;
@@ -21,6 +24,9 @@
 		break;
 		case 'delete':
 			deleteSchedule();
+		break;
+		case 'addNote':
+			addNote();
 		break;
 	}
 	function login(){
@@ -94,6 +100,36 @@
 			echo 'connect error';
 		}
 	} 
+	function getFinish(){
+		include_once('config.php');
+		$con=mysqli_connect($server,$myname,$mypsw,'now');
+		mysqli_query($con,'set names "utf8"');
+		if($con){
+			$sql='SELECT * FROM `plan` WHERE `userid`=2013051976 AND `finish`=1';
+			$result=mysqli_query($con,$sql);
+			$row=mysqli_fetch_object($result);
+			if(is_object($row)){
+				$mess=array();
+				$mes=array('code'=>0 );
+				$i=0;
+				$mess[$i]=$row;
+				$i++;
+				while($row=mysqli_fetch_object($result)){
+					$mess[$i]=$row;
+					$i++;
+				}
+				$mes['mes']=$mess;
+				echo json_encode($mes);
+				// echo json_encode(mysqli_fetch_object($result));
+			}else{
+				$mes=array('code'=>1,'mes'=>'查询失败');
+				echo json_encode($mes);
+			}
+		}else{
+			mysqli_close();
+			echo 'connect fail';
+		}
+	}
 	function getSchedule(){
 		include_once('config.php');
 		$con=mysqli_connect($server,$myname,$mypsw,'now');
@@ -101,17 +137,18 @@
 		if($con){
 			$sql='SELECT * FROM `plan` WHERE `userid`=2013051976 AND `finish`=0';
 			$result=mysqli_query($con,$sql);
-			if(is_object(mysqli_fetch_object($result))){
+			$row=mysqli_fetch_object($result);
+			if(is_object($row)){
 				$mess=array();
-				$mes=array('code'=>0);
+				$mes=array('code'=>0 );
 				$i=0;
+				$mess[$i]=$row;
+				$i++;
 				while($row=mysqli_fetch_object($result)){
-					$mess['id']=$row->id;
-					$mess['userid']=$row->userid;
-					$mess['content']=$row->content;
-					$mess['time']=$row->time;
-					$mes[$i]=$mess;
+					$mess[$i]=$row;
+					$i++;
 				}
+				$mes['mes']=$mess;
 				echo json_encode($mes);
 				// echo json_encode(mysqli_fetch_object($result));
 			}else{
@@ -184,6 +221,40 @@
 		}else{
 			mysqli_close();
 			echo 'connect fail';
+		}
+	}
+	function addNote(){
+		include_once('config.php');
+		$title=$_POST['title'];
+		$time=$_POST['time'];
+		$content=$_POST['content'];
+		$noteType=$_POST['noteType'];
+		$con=mysqli_connect($server,$myname,$mypsw,'now');
+		mysqli_query($con,'set names "utf8"');
+		if($con){
+			$sql='SELECT * FROM `userinfo` WHERE `userId`=2013051976';
+			$selectResult=mysqli_query($con,$sql);
+			$row=mysqli_fetch_object($selectResult);
+			if(is_object($row)){
+				$id=$row->userId;
+				$name=$row->userName;
+
+				$sql='INSERT INTO `note` (`posterid`,`postername`,`title`,`time`,`content`,`type`) VALUES ("2013051976","陈俊铠","关于实验室时间的安排","2301029310239","撒今后DAU胡搜杜哈安吉斯家平四大家安排扫地机","1")';
+				$insertResult=mysqli_query($con,$sql);
+				if($insertResult==true){
+					$mes= array('code' => 0, 'mes'=> '添加成功');
+					echo json_encode($mes);
+				}else if($insertResult==false){
+					$mes=array('code'=>1,'mes'=>'添加失败');
+				}
+			}else{
+				$mes= array('code' =>1 , 'mes'=>'fail');
+				echo json_encode($mes);
+			}
+			
+		}else{
+			mysqli_close();
+			echo 'connect error';
 		}
 	}
  ?>

@@ -142,6 +142,9 @@
 			line-height: 1rem;
 			text-align: center;
 		}
+		.inputCard{
+			display: none;
+		}
 	</style>
 </head>
 <body>
@@ -155,7 +158,7 @@
 		<ul>
 			<li v-on:click='GoHome'>home</li>
 			<li>手札</li>
-			<li>show</li>
+			<li v-on:click='GoNote'>暨论</li>
 			<li>mine</li>
 		</ul>
 	</nav>
@@ -429,7 +432,7 @@
 						}
 					})
 				},
-				pageOnload:function(){
+				unfinishOnload:function(){
 					$.ajax({
 						type: 'POST',
 						url: '../api/api.php',
@@ -440,8 +443,22 @@
 						}
 					})
 				},
+				finishOnload:function(){
+					$.ajax({
+						type: 'POST',
+						url: '../api/api.php',
+						data: {type:'getFinish'},
+						dataType: 'json',
+						success: function(msg){
+							console.log(msg);
+						}
+					})
+				},
 				GoHome:function(){
 					window.location.href='home.html'
+				},				
+				GoNote:function(){
+					window.location.href='note.html'
 				},
 				testPhp:function(){
 					var thisData=this
@@ -458,7 +475,8 @@
 				}
 			}
 		});
-		Page.pageOnload();
+		Page.unfinishOnload();
+		Page.finishOnload();
 </script>
 <script type="text/javascript" src='../src/common.js'></script>
 </html>
