@@ -28,6 +28,9 @@
 		case 'addNote':
 			addNote();
 		break;
+		case 'getNote':
+			getNote();
+		break;
 	}
 	function login(){
 		include_once('config.php');
@@ -254,6 +257,36 @@
 		}else{
 			mysqli_close();
 			echo 'connect error';
+		}
+	}
+	function getNote(){
+		include_once('config.php');
+		$num=$_POST['num'];
+		$con=mysqli_connect($server,$myname,$mypsw,'now');
+		mysqli_query($con,'set names "utf8"');
+		if($con){
+			$sql='SELECT * FROM `note` LIMIT '.$num.',5';
+			$result=mysqli_query($con,$sql);
+			$row=mysqli_fetch_object($result);
+			if(is_object($row)){
+				$mess=array();
+				$mes=array('code'=>0);
+				$i=0;
+				$mess[$i]=$row;
+				$i++;
+				while($row=mysqli_fetch_object($result)){
+					$mess[$i]=$row;
+					$i++;
+				}
+				$mes['mes']=$mess;
+				echo json_encode($mes);
+			}else{
+				$mes=array('code'=>1,'mes'=>'查询失败');
+				echo json_encode($mes);
+			}
+		}else{
+			mysqli_close();
+			echo 'connect fail';
 		}
 	}
  ?>

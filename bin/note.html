@@ -123,6 +123,17 @@
 					
 				},
 			methods:{
+				getNote:function(){
+					$.ajax({
+						type: 'POST',
+						url: '../api/api.php',
+						data:{ type:'getNote',num:0},
+						dataType: 'json',
+						success: function(msg){
+							console.log(msg);
+						}
+					})
+				},
 				addNote:function(){
 					var time=new Date().getTime();
 					$.ajax({
@@ -145,6 +156,7 @@
 				
 			}
 		});
+		Page.getNote();
 </script>
 <script type="text/javascript" src='../src/common.js'></script>
 </html>
