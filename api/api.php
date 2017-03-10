@@ -228,23 +228,18 @@
 		$title=$_POST['title'];
 		$time=$_POST['time'];
 		$content=$_POST['content'];
-<<<<<<< HEAD
 		$noteType=$_POST['noteType'];
-=======
-		$type=$_POST['type'];
->>>>>>> origin/master
+		$noteType=$_POST['noteType'];
 		$con=mysqli_connect($server,$myname,$mypsw,'now');
 		mysqli_query($con,'set names "utf8"');
 		if($con){
 			$sql='SELECT * FROM `userinfo` WHERE `userId`=2013051976';
 			$selectResult=mysqli_query($con,$sql);
-<<<<<<< HEAD
 			$row=mysqli_fetch_object($selectResult);
 			if(is_object($row)){
 				$id=$row->userId;
 				$name=$row->userName;
-
-				$sql='INSERT INTO `note` (`posterid`,`postername`,`title`,`time`,`content`,`type`) VALUES ("2013051976","陈俊铠","关于实验室时间的安排","2301029310239","撒今后DAU胡搜杜哈安吉斯家平四大家安排扫地机","1")';
+				$sql='INSERT INTO `note` (`posterid`,`postername`,`title`,`time`,`content`,`type`) VALUES ("'.$id.'","'.$name.'","'.$title.'","'.$time.'","'.$content.'","'.$noteType.'")';
 				$insertResult=mysqli_query($con,$sql);
 				if($insertResult==true){
 					$mes= array('code' => 0, 'mes'=> '添加成功');
@@ -256,22 +251,6 @@
 				$mes= array('code' =>1 , 'mes'=>'fail');
 				echo json_encode($mes);
 			}
-=======
-			if(is_object(mysqli_fetch_object($selectResult))){
-				$mes=array('code'=>0,'mes'=>mysqli_fetch_object($selectResult));
-				echo json_encode($mes);
-			}
-			// 	$sql='INSERT INTO `note` (`posterid`,`postername`,`title`,`time`,`content`,`type`) VALUES ("'+$row->userId+'","'+$row->userName+'","'+$title+'",'+$time+',"'+$content+'","'+$type+'")';
-			// 	$insertResult=mysqli_query($con,$sql);
-			// 	if($insertResult==true){
-			// 		$mes= array('code' => 0, 'mes'=> '添加成功');
-			// 		echo json_encode($mes);
-			// 	}else if($insertResult==false){
-			// 		$mes=array('code'=>1,'mes'=>'添加失败');
-			// 	}
-			// }
->>>>>>> origin/master
-			
 		}else{
 			mysqli_close();
 			echo 'connect error';
