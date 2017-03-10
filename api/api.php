@@ -31,6 +31,12 @@
 		case 'getNote':
 			getNote();
 		break;
+		case 'getNotePage':
+			getNotePage();
+		break;
+		case 'addComment':
+			addComment();
+		break;
 	}
 	function login(){
 		include_once('config.php');
@@ -282,6 +288,50 @@
 				echo json_encode($mes);
 			}else{
 				$mes=array('code'=>1,'mes'=>'查询失败');
+				echo json_encode($mes);
+			}
+		}else{
+			mysqli_close();
+			echo 'connect fail';
+		}
+	}
+	function getNotePage(){
+		include_once('config.php');
+		$id=$_POST['noteId'];
+		$con=mysqli_connect($server,$myname,$mypsw,'now');
+		mysqli_query($con,'set names "utf8"');
+		if($con){
+			$sql='SELECT * FROM `note` WHERE `id`='.$id;
+			$result=mysqli_query($con,$sql);
+			$row=mysqli_fetch_object($result);
+			if(is_object($row)){
+				$mes=array('code'=>0,'mes'=>$row);
+				echo json_encode($mes);			
+			}else{
+				$mes=array('code'=>1,'mes'=>'获取失败');
+			}
+		}else{
+			mysqli_close();
+			echo 'connect fail';
+		}
+	}
+	function addComment(){
+		include_once('config.php');
+		$userId=$_POST['userId'];
+		$noteId=$_POST['noteId'];
+		$userName=$_POST['userName'];
+		$time=$_POST['time'];
+		$content=$_POST['content'];
+		$con=mysqli_connect($server,$myname,$mypsw,'now');
+		mysqli_query($con,'set names "utf8"');
+		if($con){
+			$sql='INSERT INTO `notecomment` (`noteid`,`answerid`,`answername`,`time`,`content`) VALUES ("'.$noteId.'","'.$userId.'","'.$userName.'","'.$time.'","'.$content.'")';
+			$result=mysqli_query($con,$sql);
+			if($result==true){
+				$mes= array('code' =>0 , 'mes'=>'添加成功');
+				echo json_encode($mes);
+			}else if($result==false){
+				$mes=array('code'=>1,'mes'=>'添加失败');
 				echo json_encode($mes);
 			}
 		}else{

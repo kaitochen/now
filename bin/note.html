@@ -93,7 +93,7 @@
 		</ul>
 	</nav>
 	<section class='note'>
-		<div class='noteBlue'>
+		<div class='noteBlue' v-on:click='goNotePage'>
 			<p class='time'>2017.2.3</p>
 			<p class='title'>关于毕业论文的编写</p>
 			<p class='name'>财智</p>
@@ -133,6 +133,9 @@
 							console.log(msg);
 						}
 					})
+				},
+				goNotePage:function(){
+					window.location.href='notePage.html';
 				},
 				addNote:function(){
 					var time=new Date().getTime();
