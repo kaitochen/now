@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name='viewport' content='width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no'>
+	<title>NOTE</title>
+	<script type="text/javascript" src='../src/jquery.min.js'></script>
+	<script type="text/javascript" src='../src/vue.min.js'></script>
+	<link rel="stylesheet" type="text/css" href="../style/common.css">
+	<style type="text/css">
+		header{
+			position: fixed;
+			top: 0;
+			z-index: 10;
+		}
+		header h3{
+			width: 4.5rem;
+		}
+		.addNoteComment{
+			width: 3rem;
+			height: 1rem;
+			line-height: 1rem;
+			margin: 0 auto;
+			margin-top: 2rem;
+			border: 1px solid #87ceff;
+			border-radius: 0.2rem;
+			color: #000;
+			text-align: center;
+		}
+	</style>
+</head>
+<body>
+<div id='page'>
+	<header>
+		<div id='menuIcon' ></div>
+		<!-- <div class='addIcon' v-on:click='addNote'></div> -->
+		<h3>NOTEPAGE</h3>
+	</header>
+	<nav>
+		<ul>
+			<li v-on:click='GoHome'>home</li>
+			<li v-on:click='GoSchedule'>手札</li>
+			<li v-on:click='GoNote'>暨论</li>
+			<li>mine</li>
+		</ul>
+	</nav>
+	<section class='addNoteComment' v-on:click='addNoteComment'>  
+		<p>留言</p>
+	</section>
+</div>
+</body>
+<script type="text/javascript">
+	var Page=new Vue({
+			el: '#page',
+			data:{
+					
+				},
+			methods:{
+				getNotePage:function(){
+					$.ajax({
+						type: 'POST',
+						url: '../api/api.php',
+						data:{ type:'getNotePage',noteId:1},
+						dataType: 'json',
+						success: function(msg){
+							console.log(msg);
+						}
+					})
+				},
+				addNoteComment:function(){
+					$time=new Date().getTime();
+					$userId='2013051975';
+					$noteId=1;
+					$userName='敞开';
+					$content='按时地哦啊US活动啊US活动啊红丝带骄傲is就DOI按实际DOI案件搜地就爱上的';
+					$.ajax({
+						type: 'POST',
+						url: '../api/api.php',
+						data: {type: 'addComment',userId: $userId,userName: $userName,noteId: $noteId,time: $time,content: $content},
+						dataType: 'json',
+						success:function(msg){
+							console.log(msg);
+						}
+					})
+				},
+				GoHome:function(){
+					window.location.href='home.html'
+				},				
+				GoSchedule:function(){
+					window.location.href='schedule.html'
+				},
+				GoNote:function(){
+					window.location.href='note.html'
+				}
+				
+			}
+		});
+	Page.getNotePage();
+</script>
+<script type="text/javascript" src='../src/common.js'></script>
+</html>

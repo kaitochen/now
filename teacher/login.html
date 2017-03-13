@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport"  content='width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no'>
+	<title>LOGIN</title>
+	<script type="text/javascript" src='../src/jquery.min.js'></script>
+	<script type="text/javascript" src='../src/vue.min.js'></script>
+	<link rel="stylesheet" type="text/css" href="../style/common.css">
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+			font-family: '微软雅黑';
+		}
+		body{
+			/*background-color: #87ceff;*/
+			background-image: url('../img/bg.png');
+			background-size: 100% auto;
+		}
+		input{
+			width: 80%;
+			background-color: rgba(255,255,255,0);
+			border: 0;
+			height: 30px;
+			font-size: 16px;
+			font-family: '黑体';
+			color: #fff;
+		}
+		.cover{
+			width: 100%;
+			height: 100%;
+			background-color: rgba(135,206,255,0.3);
+			/*opacity: 0.2;*/
+			color: #fff;
+		}
+		#title{
+			width: 100%;
+			height: 20%;
+			text-align: center;
+			padding-top: 20%;
+		}
+		#title p{
+			margin-top: 10%;
+		}
+		#form{
+			width: 100%;
+			/*height: 50%;*/
+		}
+		#name,#key{
+			width: 90%;
+			height: 30px;
+			margin: 20px auto;
+			border-bottom: 1px solid #fff;
+		}
+		#name span,#key span{
+			width: 15%;
+			display: inline-block;
+			line-height: 30px;
+			text-align: right;
+			/*color: #000;*/
+		}
+		.Mes{
+			width: 100%;
+			text-align: center;
+			color: #f00;
+		}
+		#btn{
+			margin-top: 15%; 
+		}
+		#btn div{
+			width: 70%;
+			margin: 0 auto;
+			height: 40px;
+			line-height: 40px;
+			border-radius: 20px;
+			text-align: center;
+			margin-bottom: 20px;
+		}
+		#login{
+			background-color: #87ceff;
+		}
+		#signIn{
+			border: 1px solid #fff;
+		}
+	</style>
+</head>
+<body>
+<div id='page' class='cover'>
+	<section id='title'>
+		<h1>暨时</h1>
+		<p>your best choice</p>
+	</section>
+	<section id='form'>
+		<div id='name'>
+			<span>账号</span>
+			<input type="text" name="name" v-model='userId' maxlength='10' >
+		</div>
+		<div id='key'>
+			<span>密码</span>
+			<input type="password" name="key" v-model='userKey'>
+		</div>
+	</section>
+	<section class='Mes'>
+		<p>{{errorMes}}</p>
+	</section>
+	<section id='btn'>
+		<div id='login' v-on:click='goLogin'>LOGIN</div>
+		<div id='signIn' v-on:click='goSignIn'>SIGN IN</div>
+	</section> 
+</div>
+</body>
+	<script type="text/javascript">
+		var wid=window.innerWidth;
+		var hei=window.innerHeight;
+		var Page=document.getElementsByTagName('body')[0];
+		Page.style.width=wid+'px';
+		Page.style.height=hei+'px';
+	</script>
+	<script type="text/javascript">
+		var page=new Vue({
+			el: '#page',
+			data:{
+				userId:'',
+				userKey: '',
+				errorMes: ''
+			},
+			methods:{
+				goLogin:function(){
+					var thisPage=this
+					if(this.userId==''||this.userKey==''){
+						this.errorMes='请输入账号跟密码！'
+					}else if(this.userId.length!==10||isNaN(this.userId)){
+						this.errorMes='请输入正确的账号'
+					}else{
+						this.errorMes=''
+						$.ajax({
+							type: 'POST',
+							url: '../api/teacherApi.php',
+							data: {type:'login',name: this.userId,key: this.userKey},
+							dataType: 'json',
+							success: function(res){
+								if(res.code==0){
+									localStorage.userid=thisPage.userId
+									localStorage.userkey=thisPage.userKey
+									window.location.href='home.html'
+								}else{
+									console.log('error')
+									thisPage.errorMes=res.mes
+								}
+							}
+						})
+					}
+					
+				},
+				goSignIn:function(){
+					window.location.href='signIn.html?'+this.userId
+				}
+			}
+		})
+	</script>
+</html>
