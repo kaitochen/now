@@ -144,6 +144,62 @@
 		}
 		.inputCard{
 			display: none;
+			width: 80%;
+			height: 5rem;
+			position: fixed;
+			top: 3rem;
+			left: 10%;
+			padding-top: 1rem;
+			border: 1px solid #eee;
+			border-radius: 0.2rem;
+			background-color: #fff;
+		}
+		.inputLine{
+			width: 100%;
+			height: 1rem;
+
+		}
+		.inputLine p{
+			width: 20%;
+			height: 1rem;
+			/*font-size: 1rem;*/
+			line-height: 1rem;
+			float: left;
+			text-align: right;
+		}
+		.inputLine input{
+			height: 0.6rem;
+			width: 70%;
+			margin: 0.2rem 0;
+			/*width: 70%;*/
+			/*margin-left: 10%;*/
+		}
+		.inputCheck{
+			width: 100%;
+			height: 1rem;
+		}
+		.inputCheck p{
+			width: 70%;
+			height: 1rem;
+			margin-right: 10%;
+			line-height: 1rem;
+			float: right;
+			text-align: left;
+		}
+		.inputCheck input{
+			float: right; 
+			height: 1rem;
+		}
+		.addBtn{
+			width: 50%;
+			height: 1rem;
+			margin: 0 auto;
+			border-radius: 0.5rem;
+			text-align: center;
+			line-height: 1rem;
+			background-color: #87ceff;
+			color: #fff;
+			font-size: 0.3rem;
 		}
 	</style>
 </head>
@@ -151,7 +207,7 @@
 <div id='page'>
 	<header>
 		<div id='menuIcon' ></div>
-		<div class='addIcon' v-on:click='add'></div>
+		<div class='addIcon' v-on:click='addPlan'></div>
 		<h3>手札</h3>
 	</header>
 	<nav>
@@ -167,204 +223,45 @@
 		<p id='finished'>FINISHED</p>
 	</section>
 	<section class='project'>
-		<div class="list" >
-			<div class='listBtn' v-on:click='finish'>
+		<div class="list" v-for="item in listArray" >
+			<div class='listBtn' :id='item.scheduleId'  v-on:click='finish(item.scheduleId)'>
 				<div></div>
 			</div>
 			<div class='listContent'>
-				<p>2017.02.28</p>
-				<p>晚上7点到南海楼503做实验</p>
+				<p>{{item.time}}</p>
+				<p>{{item.content}}</p>
 			</div>
 			<div class='listDelete'>
 				<span><img src="../img/delete2.png"></span>
 				<span><img src="../img/cancel2.png"></span>
 			</div>
 		</div>
-		<div class="list" >
-			<div class='listBtn' v-on:click='deleteSchedule'>
-				<div></div>
-			</div>
-			<div class='listContent'>
-				<p>2017.02.28</p>
-				<p>到实验室做实验</p>
-			</div>
-			<div class='listDelete'>
-				<div></div>
-			</div>
-		</div>
-		<div class="list" >
-			<div class='listBtn'>
-				<div></div>
-			</div>
-			<div class='listContent'>
-				<p>2017.02.28</p>
-				<p>到实验室做实验</p>
-			</div>
-			<div class='listDelete'>
-				<div></div>
-			</div>
-		</div>
-		<div class="list" >
-			<div class='listBtn'>
-				<div></div>
-			</div>
-			<div class='listContent'>
-				<p>2017.02.28</p>
-				<p>到实验室做实验</p>
-			</div>
-			<div class='listDelete'>
-				<div></div>
-			</div>
-		</div>		
-		<div class="list" >
-			<div class='listBtn'>
-				<div></div>
-			</div>
-			<div class='listContent'>
-				<p>2017.02.28</p>
-				<p>晚上7点到南海楼503做实验</p>
-			</div>
-			<div class='listDelete'>
-				<div></div>
-			</div>
-		</div>
-		<div class="list" >
-			<div class='listBtn'>
-				<div></div>
-			</div>
-			<div class='listContent'>
-				<p>2017.02.28</p>
-				<p>到实验室做实验</p>
-			</div>
-			<div class='listDelete'>
-				<div></div>
-			</div>
-		</div>
-		<div class="list" >
-			<div class='listBtn'>
-				<div></div>
-			</div>
-			<div class='listContent'>
-				<p>2017.02.28</p>
-				<p>到实验室做实验</p>
-			</div>
-			<div class='listDelete'>
-				<div></div>
-			</div>
-		</div>
-		<div class="list" >
-			<div class='listBtn'>
-				<div></div>
-			</div>
-			<div class='listContent'>
-				<p>2017.02.28</p>
-				<p>到实验室做实验</p>
-			</div>
-			<div class='listDelete'>
-				<div></div>
-			</div>
-		</div>
-		<div class="list" >
-			<div class='listBtn'>
-				<div></div>
-			</div>
-			<div class='listContent'>
-				<p>2017.02.28</p>
-				<p>晚上7点到南海楼503做实验</p>
-			</div>
-			<div class='listDelete'>
-				<div></div>
-			</div>
-		</div>
-		<div class="list" >
-			<div class='listBtn'>
-				<div></div>
-			</div>
-			<div class='listContent'>
-				<p>2017.02.28</p>
-				<p>到实验室做实验</p>
-			</div>
-			<div class='listDelete'>
-				<div></div>
-			</div>
-		</div>
-		<div class="list" >
-			<div class='listBtn'>
-				<div></div>
-			</div>
-			<div class='listContent'>
-				<p>2017.02.28</p>
-				<p>到实验室做实验</p>
-			</div>
-			<div class='listDelete'>
-				<div></div>
-			</div>
-		</div>
-		<div class="list" >
-			<div class='listBtn'>
-				<div></div>
-			</div>
-			<div class='listContent'>
-				<p>2017.02.28</p>
-				<p>到实验室做实验</p>
-			</div>
-			<div class='listDelete'>
-				<div></div>
-			</div>
-		</div>
 	</section>
 	<section class='finished'>
-		<div class='finish'>
+		<div class='finish' v-for="item in finishArray">
 			<div class='finishBtn'>
 				<div></div>
 			</div>
 			<div class='finishContent'>
-				<p>2017.02.28</p>
-				<p>到实验室做实验</p>
-			</div>
-		</div>
-		<div class='finish'>
-			<div class='finishBtn'>
-				<div></div>
-			</div>
-			<div class='finishContent'>
-				<p>2017.02.28</p>
-				<p>到实验室做实验</p>
-			</div>
-		</div>
-		<div class='finish'>
-			<div class='finishBtn'>
-				<div></div>
-			</div>
-			<div class='finishContent'>
-				<p>2017.02.28</p>
-				<p>到实验室做实验</p>
-			</div>
-		</div>
-		<div class='finish'>
-			<div class='finishBtn'>
-				<div></div>
-			</div>
-			<div class='finishContent'>
-				<p>2017.02.28</p>
-				<p>到实验室做实验</p>
+				<p>{{item.time}}</p>
+				<p>{{item.content}}</p>
 			</div>
 		</div>
 	</section>
-	<section class='inputCard'>		
-		<div>
-			<p>时间</p>
-			<input type="text" name="">
+	<section class='inputCard' v-bind:style='{display:cardState}'>		
+		<div class='inputLine'>
+			<p>时间:</p>
+			<input type="text" name="" v-model="time" placeholder="时间格式为：20170212" maxlength="10">
 		</div>		
-		<div>
-			<p>内容</p>
-			<input type="text" name="">
+		<div class='inputLine'>
+			<p>内容:</p>
+			<input type="text" name="" v-model="content">
 		</div>
-		<div>
-			<input type="checkbox" name="">
+		<div class='inputCheck'>
 			<p>完成时是否通知老师</p>
+			<input type="checkbox" name="" v-model="notice">
 		</div>
-		<div>
+		<div class='addBtn' v-on:click='add'>
 			<p>send</p>
 		</div>
 	</section>
@@ -393,17 +290,28 @@
 				name: '123',
 				listArray: [],
 				finishArray: [],
-				userid:''
+				userid:'',
+				cardState:'none',
+				time:'',
+				content:'',
+				notice:''
 				},
 			methods:{
 				getUser:function(){
-					
+					this.userid=localStorage.userid;
+				},
+				addPlan:function(){
+					this.cardState='block'
 				},
 				add:function(){
+					var state=0;
+					if(this.notice==true){
+						state=1;
+					}
 					$.ajax({
 						type: 'POST',
 						url: '../api/api.php',
-						data:{type:'add'},
+						data:{type:'add',id:this.userid,time:this.time,content:this.content,notice:state},
 						dataType: 'json',
 						success:function(msg){
 							console.log(msg);
@@ -421,11 +329,12 @@
 						}
 					})
 				},
-				finish:function(){
+				finish:function(id){
+
 					$.ajax({
 						type: 'POST',
 						url: '../api/api.php',
-						data:{type:'finish'},
+						data:{type:'finish',id:id,userid:this.userid},
 						dataType: 'json',
 						success:function(msg){
 							console.log(msg);
@@ -433,24 +342,36 @@
 					})
 				},
 				unfinishOnload:function(){
+					var thisPage=this;
 					$.ajax({
 						type: 'POST',
 						url: '../api/api.php',
-						data: {type:'getSchedule'},
+						data: {type:'getSchedule',userid:this.userid},
 						dataType: 'json',
 						success: function(msg){
-							console.log(msg);
+							var len=msg.mes.length;
+							for(var i=0;i<len;i++){
+								var obj={'time':msg.mes[i]['time'],'content':msg.mes[i]['content'],'scheduleId':msg.mes[i]['id']}
+								thisPage.listArray.push(obj);
+							}
+							console.log(thisPage.listArray);
 						}
 					})
 				},
 				finishOnload:function(){
+					var thisPage=this;
 					$.ajax({
 						type: 'POST',
 						url: '../api/api.php',
-						data: {type:'getFinish'},
+						data: {type:'getFinish',userid:this.userid},
 						dataType: 'json',
 						success: function(msg){
-							console.log(msg);
+							var len=msg.mes.length;
+							for(var i=0;i<len;i++){
+								var obj={'time':msg.mes[i]['time'],'content':msg.mes[i]['content'],'scheduleId':msg.mes[i]['id']}
+								thisPage.finishArray.push(obj);
+							}
+							console.log(thisPage.finishArray);
 						}
 					})
 				},
@@ -459,22 +380,11 @@
 				},				
 				GoNote:function(){
 					window.location.href='note.html'
-				},
-				testPhp:function(){
-					var thisData=this
-					console.log(thisData.name)
-					$.ajax({
-						type: 'POST',
-						url: '../api/api.php',
-						data: {type:'test',name: this.name},
-						dateType: 'json',
-						success: function(msg){
-							console.log(msg)
-						}
-					})
 				}
+				
 			}
 		});
+		Page.getUser();
 		Page.unfinishOnload();
 		Page.finishOnload();
 </script>

@@ -81,14 +81,8 @@
 		}
 		.listContent p:nth-child(1){
 			width: 5.5rem;
-			height: 0.5rem;
-			line-height: 1rem;
-			text-align: center;
-		}
-		.listContent p:nth-child(2){
-			width: 5.5rem;
-			height: 1rem;
-			line-height: 1rem;
+			height: 1.5rem;
+			line-height: 1.5rem;
 			text-align: center;
 		}
 		.listDelete{
@@ -152,7 +146,7 @@
 	<header>
 		<div id='menuIcon' ></div>
 		<div class='addIcon' v-on:click='add'></div>
-		<h3>手札</h3>
+		<h3>project</h3>
 	</header>
 	<nav>
 		<ul>
@@ -163,156 +157,23 @@
 		</ul>
 	</nav>
 	<section class='tab'>
-		<p id='ing'>ING</p>
-		<p id='finished'>FINISHED</p>
+		<p id='ing'>课题</p>
+		<p id='finished'>任务提醒</p>
 	</section>
-<!-- 	<section class='project'>
-		<div class="list" >
-			<div class='listBtn' v-on:click='finish'>
+	<section class='project'>
+		<div class="list" v-for='item in projectArray'>
+			<div class='listBtn' :id='item.projectId' v-on:click='editProject(item.projectId)'>
 				<div></div>
 			</div>
 			<div class='listContent'>
-				<p>2017.02.28</p>
-				<p>晚上7点到南海楼503做实验</p>
+				<p>{{item.projectName}}</p>
 			</div>
 			<div class='listDelete'>
 				<span><img src="../img/delete2.png"></span>
 				<span><img src="../img/cancel2.png"></span>
 			</div>
 		</div>
-		<div class="list" >
-			<div class='listBtn' v-on:click='deleteSchedule'>
-				<div></div>
-			</div>
-			<div class='listContent'>
-				<p>2017.02.28</p>
-				<p>到实验室做实验</p>
-			</div>
-			<div class='listDelete'>
-				<div></div>
-			</div>
-		</div>
-		<div class="list" >
-			<div class='listBtn'>
-				<div></div>
-			</div>
-			<div class='listContent'>
-				<p>2017.02.28</p>
-				<p>到实验室做实验</p>
-			</div>
-			<div class='listDelete'>
-				<div></div>
-			</div>
-		</div>
-		<div class="list" >
-			<div class='listBtn'>
-				<div></div>
-			</div>
-			<div class='listContent'>
-				<p>2017.02.28</p>
-				<p>到实验室做实验</p>
-			</div>
-			<div class='listDelete'>
-				<div></div>
-			</div>
-		</div>		
-		<div class="list" >
-			<div class='listBtn'>
-				<div></div>
-			</div>
-			<div class='listContent'>
-				<p>2017.02.28</p>
-				<p>晚上7点到南海楼503做实验</p>
-			</div>
-			<div class='listDelete'>
-				<div></div>
-			</div>
-		</div>
-		<div class="list" >
-			<div class='listBtn'>
-				<div></div>
-			</div>
-			<div class='listContent'>
-				<p>2017.02.28</p>
-				<p>到实验室做实验</p>
-			</div>
-			<div class='listDelete'>
-				<div></div>
-			</div>
-		</div>
-		<div class="list" >
-			<div class='listBtn'>
-				<div></div>
-			</div>
-			<div class='listContent'>
-				<p>2017.02.28</p>
-				<p>到实验室做实验</p>
-			</div>
-			<div class='listDelete'>
-				<div></div>
-			</div>
-		</div>
-		<div class="list" >
-			<div class='listBtn'>
-				<div></div>
-			</div>
-			<div class='listContent'>
-				<p>2017.02.28</p>
-				<p>到实验室做实验</p>
-			</div>
-			<div class='listDelete'>
-				<div></div>
-			</div>
-		</div>
-		<div class="list" >
-			<div class='listBtn'>
-				<div></div>
-			</div>
-			<div class='listContent'>
-				<p>2017.02.28</p>
-				<p>晚上7点到南海楼503做实验</p>
-			</div>
-			<div class='listDelete'>
-				<div></div>
-			</div>
-		</div>
-		<div class="list" >
-			<div class='listBtn'>
-				<div></div>
-			</div>
-			<div class='listContent'>
-				<p>2017.02.28</p>
-				<p>到实验室做实验</p>
-			</div>
-			<div class='listDelete'>
-				<div></div>
-			</div>
-		</div>
-		<div class="list" >
-			<div class='listBtn'>
-				<div></div>
-			</div>
-			<div class='listContent'>
-				<p>2017.02.28</p>
-				<p>到实验室做实验</p>
-			</div>
-			<div class='listDelete'>
-				<div></div>
-			</div>
-		</div>
-		<div class="list" >
-			<div class='listBtn'>
-				<div></div>
-			</div>
-			<div class='listContent'>
-				<p>2017.02.28</p>
-				<p>到实验室做实验</p>
-			</div>
-			<div class='listDelete'>
-				<div></div>
-			</div>
-		</div>
-	</section> -->
+	</section>
 	<section class='finished'>
 		<div class='finish'>
 			<div class='finishBtn' v-on:click='addNotice'>
@@ -387,19 +248,20 @@
 			el: '#page',
 			data:{
 				name: '123',
-				listArray: [],
+				projectArray: [],
 				finishArray: [],
-				userid:''
+				userid:'',
+				num:1
 				},
 			methods:{
 				getUser:function(){
-					
+					this.userid=localStorage.userid;
 				},
 				add:function(){
 					$.ajax({
 						type: 'POST',
 						url: '../api/teacherApi.php',
-						data:{type:'addProject',teacherId:'2013121212',project:'氧化锌ZnO的制备'},
+						data:{type:'addProject',teacherId:this.userid,project:'氧化锌ZnO的制备'},
 						dataType: 'json',
 						success:function(msg){
 							console.log(msg);
@@ -417,6 +279,36 @@
 						}
 					})
 				},
+				getProject:function(){
+					var thisPage=this;
+					$.ajax({
+						type: 'POST',
+						url: '../api/teacherApi.php',
+						data:{type:'getProject',teacherId:this.userid,num:0},
+						dataType: 'json',
+						success:function(msg){
+							var len=msg.mes.length;
+							for(var i=0;i<len;i++){
+								var obj={'projectId':msg.mes[i]['projectid'],'projectName':msg.mes[i]['projectname']};
+								thisPage.projectArray.push(obj);
+							}
+							console.log(thisPage.projectArray);
+						}
+					})
+				},
+				editProject:function(id){
+					var thisPage=this;
+					var projectname='CuO纳米线的制备';
+					$.ajax({
+						type: 'POST',
+						url: '../api/teacherApi.php',
+						data:{type:'editProject',teacherId:this.userid,projectId:id,projectName:projectname},
+						dataType: 'json',
+						success:function(msg){
+							console.log(msg);
+						}
+					})
+				},
 				GoHome:function(){
 					window.location.href='home.html'
 				},				
@@ -425,6 +317,8 @@
 				}
 			}
 		});
+		Page.getUser();
+		Page.getProject();
 </script>
 <script type="text/javascript" src='../src/common.js'></script>
 </html>

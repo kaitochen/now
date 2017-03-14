@@ -50,8 +50,8 @@
 		.time{
 			font-size: 0.3rem;
 			position: absolute;
-			top: 0.55rem;
-			left: 0.48rem;
+			top: 0.56rem;
+			left: 0.36rem;
 		}
 		.title{
 			font-size: 0.4rem;
@@ -93,44 +93,47 @@
 		</ul>
 	</nav>
 	<section class='note'>
-		<div class='noteBlue' v-on:click='goNotePage'>
-			<p class='time'>2017.2.3</p>
-			<p class='title'>关于毕业论文的编写</p>
-			<p class='name'>财智</p>
+		<div v-for='item in noteArray' v-bind:class='item.class' v-on:click='goNotePage'>
+			<p class='time'>{{item.time}}</p>
+			<p class='title'>{{item.title}}</p>
+			<p class='name'>{{item.name}}</p>
 		</div>		
-		<div class='noteYellow'>
-			<p class='time'>2017.2.3</p>
-			<p class='title'>关于毕业论文的编写</p>
-			<p class='name'>财智</p>
-		</div>		
-		<div class='noteRed'>
-			<p class='time'>2017.2.3</p>
-			<p class='title'>关于毕业论文的编写</p>
-			<p class='name'>财智</p>
-		</div>		
-		<div class='noteBlue'>
-			<p class='time'>2017.2.3</p>
-			<p class='title'>关于毕业论文的编写</p>
-			<p class='name'>财智</p>
-		</div>
 	</section>
+	
 </div>
 </body>
 <script type="text/javascript">
 		var Page=new Vue({
 			el: '#page',
 			data:{
-					
+					noteArray:[],
+					num:0
 				},
 			methods:{
 				getNote:function(){
+					var thisPage=this;
 					$.ajax({
 						type: 'POST',
 						url: '../api/api.php',
-						data:{ type:'getNote',num:0},
+						data:{ type:'getNote',num:this.num},
 						dataType: 'json',
 						success: function(msg){
-							console.log(msg);
+							var len=msg.mes.length;
+							for(var i=0;i<len;i++){
+								if(msg.mes[i]['type']==1){
+									var className='noteBlue';
+								}else{
+									var className='noteRed';
+								}
+								var time=new Date(parseInt(msg.mes[i]['time']));
+								console.log(time);
+								var str=time.getFullYear();
+								str+='.'+(time.getMonth()+1);
+								str+='.'+time.getDate();
+								var obj={'time':str,'title':msg.mes[i]['title'],'name':msg.mes[i]['postername'],'noteId':msg.mes[i]['id'],'class':className};
+								thisPage.noteArray.push(obj);
+							}
+							console.log(thisPage.noteArray)
 						}
 					})
 				},
@@ -139,11 +142,11 @@
 				},
 				addNote:function(){
 					var time=new Date().getTime();
+					console.log(time)
 					$.ajax({
 						type: 'POST',
 						url: '../api/api.php',
 						data: {type: 'addNote',title:'关于实验室的安排',time:time,content: '今天就是不算收到哦啊胡搜的好书的',noteType: '0'},
-						data: {type: 'addNote',title:'关于实验室的安排',time:time,content: '今天就是不算收到哦啊胡搜的好书的',noteType: 0},
 						dataType: 'json',
 						success: function(msg){
 							console.log(msg);

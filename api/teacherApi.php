@@ -10,6 +10,12 @@ switch ($type) {
 	case 'addProject':
 		addProject();
 	break;
+	case 'getProject':
+		getProject();
+	break;
+	case 'editProject':
+		editProject();
+	break;
 }
 function signIn(){
 	include_once('config.php');
@@ -104,4 +110,60 @@ function addProject(){
 function addNotice(){
 	$teacherid=$_POST['teacherid'];
 	
+}
+function getProject(){
+	include_once('config.php');
+	$teacherId=$_POST['teacherId'];
+	$num=$_POST['num'];
+	$con=mysqli_connect($server,$myname,$mypsw,'now');
+	mysqli_query($con,'set names "utf8"');
+	if($con){
+		$sql='SELECT * FROM `project` WHERE `teacherid`="'.$teacherId.'"';
+		$result=mysqli_query($con,$sql);
+		$row=mysqli_fetch_object($result);
+		if(is_object($row)){
+			$mess=array();
+			$mes=array('code'=>0);
+			$i=0;
+			$mess[$i]=$row;
+			$i++;
+			while($row=mysqli_fetch_object($result)){
+				$mess[$i]=$row;
+				$i++;
+			}
+			$mes['mes']=$mess;
+			echo json_encode($mes);
+		}else{
+			$mes=array('code'=>1,'mes'=>'查询失败');
+			echo json_encode($mes);
+		}
+
+	}else{
+		mysqli_close();	
+		echo 'connect fail';
+	}
 }	
+function editProject(){
+	include_once('config.php');
+		$id=$_POST['projectId'];
+		$teacherid=$_POST['teacherId'];
+		$projectname=$_POST['projectName'];
+		// $time=$_POST['time'];
+		// $content=$_POST['content'];
+		// $notice=$_POST['notice'];
+		$con=mysqli_connect($server,$myname,$mypsw,'now');
+		mysqli_query($con,'set names "utf8"');
+		if($con){
+			$sql='UPDATE `project` SET `projectname`="'.$projectname.'" WHERE `teacherid`="'.$teacherid.'" AND projectid="'.$id.'"' ;
+			$insertResult=mysqli_query($con,$sql);
+			if($insertResult==true){
+				$mes= array('code' => 0, 'mes'=> '修改成功');
+				echo json_encode($mes);
+			}else if($insertResult==false){
+				$mes=array('code'=>1,'mes'=>'修改失败');
+			}
+		}else{
+			mysqli_close();
+			echo 'connect error';
+		}
+}

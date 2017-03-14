@@ -111,10 +111,11 @@
 	} 
 	function getFinish(){
 		include_once('config.php');
+		$id=$_POST['userid'];
 		$con=mysqli_connect($server,$myname,$mypsw,'now');
 		mysqli_query($con,'set names "utf8"');
 		if($con){
-			$sql='SELECT * FROM `plan` WHERE `userid`=2013051976 AND `finish`=1';
+			$sql='SELECT * FROM `plan` WHERE `userid`="'.$id.'" AND `finish`=1 ORDER BY `time` DESC';
 			$result=mysqli_query($con,$sql);
 			$row=mysqli_fetch_object($result);
 			if(is_object($row)){
@@ -141,10 +142,11 @@
 	}
 	function getSchedule(){
 		include_once('config.php');
+		$id=$_POST['userid'];
 		$con=mysqli_connect($server,$myname,$mypsw,'now');
 		mysqli_query($con,'set names "utf8"');
 		if($con){
-			$sql='SELECT * FROM `plan` WHERE `userid`=2013051976 AND `finish`=0';
+			$sql='SELECT * FROM `plan` WHERE `userid`="'.$id.'" AND `finish`=0 ORDER BY `time` ASC' ;
 			$result=mysqli_query($con,$sql);
 			$row=mysqli_fetch_object($result);
 			if(is_object($row)){
@@ -171,14 +173,14 @@
 	}
 	function addSchedule(){
 		include_once('config.php');
-		// $id=$_POST['id'];
-		// $time=$_POST['time'];
-		// $content=$_POST['content'];
-		// $notice=$_POST['notice'];
+		$id=$_POST['id'];
+		$time=$_POST['time'];
+		$content=$_POST['content'];
+		$notice=$_POST['notice'];
 		$con=mysqli_connect($server,$myname,$mypsw,'now');
 		mysqli_query($con,'set names "utf8"');
 		if($con){
-			$sql='INSERT INTO `plan` (`userid`,`time`,`content`) VALUES ("2013051976","20170322","试试而已")';
+			$sql='INSERT INTO `plan` (`userid`,`time`,`content`,`notice`) VALUES ("'.$id.'","'.$time.'","'.$content.'","'.$notice.'")';
 			$insertResult=mysqli_query($con,$sql);
 			if($insertResult==true){
 				$mes= array('code' => 0, 'mes'=> '添加成功');
@@ -193,14 +195,15 @@
 	}
 	function finishSchedule(){
 		include_once('config.php');
-		// $id=$_POST['id'];
+		$id=$_POST['id'];
+		$userid=$_POST['userid'];
 		// $time=$_POST['time'];
 		// $content=$_POST['content'];
 		// $notice=$_POST['notice'];
 		$con=mysqli_connect($server,$myname,$mypsw,'now');
 		mysqli_query($con,'set names "utf8"');
 		if($con){
-			$sql='UPDATE `plan` SET `finish`=0 WHERE `userid`=2013051976 AND `id`=2';
+			$sql='UPDATE `plan` SET `finish`=1 WHERE `userid`="'.$userid.'" AND id="'.$id.'"' ;
 			$insertResult=mysqli_query($con,$sql);
 			if($insertResult==true){
 				$mes= array('code' => 0, 'mes'=> '修改成功');
@@ -309,6 +312,7 @@
 				echo json_encode($mes);			
 			}else{
 				$mes=array('code'=>1,'mes'=>'获取失败');
+				echo json_encode($mes);
 			}
 		}else{
 			mysqli_close();
