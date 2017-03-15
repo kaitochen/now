@@ -50,13 +50,16 @@
 			overflow: hidden;
 		}
 		.list{
-			width: 7.5rem;
+			width: 10.5rem;
 			height: 1.5rem;
 			background-color: #fff;
 			margin: 0.1rem 0;
 			overflow: hidden;
 			/*position: relative;*/
 			box-shadow: 0 0 0.03rem 0.03rem #eee;
+			position: relative;
+			top: 0;
+			left: -2rem;
 		}
 		.listBtn{
 			float: left;
@@ -86,11 +89,23 @@
 			text-align: center;
 		}
 		.listDelete{
-			position: absolute;
+			position: relative;
 			left: 7.5rem;
-			width: 7.5rem;
+			width: 3rem;
 			height: 1.5rem;
-			background-color: rgba(0,0,0,0.7);
+			/*background-color: rgba(0,0,0,0.7);*/
+			background-color: #87ceff;
+		}
+		.listDelete span{
+			display: block;
+			width: 1.5rem;
+			height: 1.5rem;
+			float: left;
+		}
+		.listDelete span img{
+			width: 0.7rem;
+			height: 0.7rem;
+			padding: 0.4rem;
 		}
 		.finished{
 			position: absolute;
@@ -223,7 +238,7 @@
 		<p id='finished'>任务提醒</p>
 	</section>
 	<section class='project'>
-		<div class="list" v-for='(item,index) in projectArray'>
+		<div class="list" v-for='(item,index) in projectArray' >
 			<div class='listBtn' :id='item.projectId' v-on:click='editProject(index)'>
 				<div></div>
 			</div>
@@ -383,12 +398,8 @@
 				editProject:function(index){
 					this.cardState='block';
 					this.editState='block';
-					// var thisPage=this;
-					// var projectname='CuO纳米线的制备';
-					// console.log(index)
 					this.content=this.projectArray[index]['projectName'];
 					this.thisIndex=index;
-					// this.edit(projectid);
 				},
 				edit:function(){
 					var projectname=this.content;
