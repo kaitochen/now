@@ -32,11 +32,11 @@
 			z-index: 10;
 		}
 		.tab p{
-			width: 3.75rem;
+			width: 7.5rem;
 			height: 1rem;
 			text-align: center;
 			line-height: 1rem;
-			float: left;
+			/*float: left;*/
 			background-color: #fff;
 		}
 		#ing{
@@ -81,8 +81,14 @@
 		}
 		.listContent p:nth-child(1){
 			width: 5.5rem;
-			height: 1.5rem;
-			line-height: 1.5rem;
+			height: 0.5rem;
+			line-height: 1rem;
+			text-align: center;
+		}
+		.listContent p:nth-child(2){
+			width: 5.5rem;
+			height: 1rem;
+			line-height: 1rem;
 			text-align: center;
 		}
 		.listDelete{
@@ -138,36 +144,15 @@
 		}
 		.inputCard{
 			display: none;
-			width: 7.5rem;
-			height: 15rem;
+			width: 80%;
+			height: 5rem;
 			position: fixed;
-			top: 0rem;
-			left: 0rem;
-			padding-top: 3rem;
+			top: 3rem;
+			left: 10%;
+			padding-top: 1rem;
 			border: 1px solid #eee;
 			border-radius: 0.2rem;
-			background-color: rgba(0,0,0,0.5);
-		}
-		.inputBorder{
-			width: 80%;
-			margin: 0 auto;
-			height: 5rem;
 			background-color: #fff;
-			border-radius: 0.2rem;
-			padding-top: 1rem;
-			position: relative;
-		}
-		.inputCancel{
-			width: 0.5rem;
-			height: 0.5rem;
-			padding: 0.2rem;
-			position: absolute;
-			top: 0;
-			right: 0;
-		}
-		.inputCancel img{
-			width: 100%;
-			height: 100%;
 		}
 		.inputLine{
 			width: 100%;
@@ -189,11 +174,26 @@
 			/*width: 70%;*/
 			/*margin-left: 10%;*/
 		}
+		.inputCheck{
+			width: 100%;
+			height: 1rem;
+		}
+		.inputCheck p{
+			width: 70%;
+			height: 1rem;
+			margin-right: 10%;
+			line-height: 1rem;
+			float: right;
+			text-align: left;
+		}
+		.inputCheck input{
+			float: right; 
+			height: 1rem;
+		}
 		.addBtn{
 			width: 50%;
 			height: 1rem;
 			margin: 0 auto;
-			margin-top: 1rem;
 			border-radius: 0.5rem;
 			text-align: center;
 			line-height: 1rem;
@@ -207,28 +207,29 @@
 <div id='page'>
 	<header>
 		<div id='menuIcon' ></div>
-		<div class='addIcon' v-on:click='addBtn'></div>
-		<h3>project</h3>
+		<!-- <div class='addIcon' v-on:click='addPlan'></div> -->
+		<h3>选题</h3>
 	</header>
 	<nav>
 		<ul>
 			<li v-on:click='GoHome'>home</li>
-			<li>课题</li>
+			<li>选题</li>
 			<li v-on:click='GoNote'>暨论</li>
 			<li>mine</li>
 		</ul>
 	</nav>
 	<section class='tab'>
-		<p id='ing'>课题</p>
-		<p id='finished'>任务提醒</p>
+		<p id='ing'>ING</p>
+		<p id='finished'>FINISHED</p>
 	</section>
 	<section class='project'>
-		<div class="list" v-for='(item,index) in projectArray'>
-			<div class='listBtn' :id='item.projectId' v-on:click='editProject(index)'>
+		<div class="list" v-for="item in listArray" >
+			<div class='listBtn' :id='item.scheduleId'  v-on:click='finish(item.scheduleId)'>
 				<div></div>
 			</div>
-			<div class='listContent' v-on:click='deleteProject(item.projectId)'>
-				<p>{{item.projectName}}</p>
+			<div class='listContent'>
+				<p>{{item.time}}</p>
+				<p>{{item.content}}</p>
 			</div>
 			<div class='listDelete'>
 				<span><img src="../img/delete2.png"></span>
@@ -236,61 +237,34 @@
 			</div>
 		</div>
 	</section>
-	<section class='finished'>
-		<div class='finish'>
-			<div class='finishBtn' v-on:click='addNotice'>
-				<div></div>
-			</div>
-			<div class='finishContent'>
-				<p>2017.02.28</p>
-				<p>到实验室做实验</p>
-			</div>
-		</div>
-		<div class='finish'>
+<!-- 	<section class='finished'>
+		<div class='finish' v-for="item in finishArray">
 			<div class='finishBtn'>
 				<div></div>
 			</div>
 			<div class='finishContent'>
-				<p>2017.02.28</p>
-				<p>到实验室做实验</p>
+				<p>{{item.time}}</p>
+				<p>{{item.content}}</p>
 			</div>
 		</div>
-		<div class='finish'>
-			<div class='finishBtn'>
-				<div></div>
-			</div>
-			<div class='finishContent'>
-				<p>2017.02.28</p>
-				<p>到实验室做实验</p>
-			</div>
+	</section> -->
+	<!-- <section class='inputCard' v-bind:style='{display:cardState}'>		
+		<div class='inputLine'>
+			<p>时间:</p>
+			<input type="text" name="" v-model="time" placeholder="时间格式为：20170212" maxlength="10">
+		</div>		
+		<div class='inputLine'>
+			<p>内容:</p>
+			<input type="text" name="" v-model="content">
 		</div>
-		<div class='finish'>
-			<div class='finishBtn'>
-				<div></div>
-			</div>
-			<div class='finishContent'>
-				<p>2017.02.28</p>
-				<p>到实验室做实验</p>
-			</div>
+		<div class='inputCheck'>
+			<p>完成时是否通知老师</p>
+			<input type="checkbox" name="" v-model="notice">
 		</div>
-	</section>
-	<section class='inputCard' v-bind:style='{display:cardState}'>	
-		<div class='inputBorder'>
-			<div class='inputCancel' v-on:click='cancel'>
-				<img src="../img/cancel.png">
-			</div>
-			<div class='inputLine'>
-				<p>课题:</p>
-				<input type="text" name="" v-model="content">
-			</div>
-			<div class='addBtn' v-on:click='add' v-bind:style='{display:addState}'>
-				<p>send</p>
-			</div>
-			<div class='addBtn' v-on:click='edit' v-bind:style='{display:editState}'>
-				<p>edit</p>
-			</div>
+		<div class='addBtn' v-on:click='add'>
+			<p>send</p>
 		</div>
-	</section>
+	</section> -->
 </div>
 </body>
 <script type="text/javascript">
@@ -314,115 +288,105 @@
 			el: '#page',
 			data:{
 				name: '123',
-				projectArray: [],
-				finishArray: [],
+				listArray: [],
+				// finishArray: [],
 				userid:'',
-				num:1,
-				cardState:'none',
-				content:'',
-				addState:'none',
-				editState:'none'
-			},
+				// cardState:'none',
+				// time:'',
+				// content:'',
+				// notice:''
+				},
 			methods:{
 				getUser:function(){
 					this.userid=localStorage.userid;
 				},
-				addBtn:function(){
-					this.cardState='block';
-					this.addState='block';
+				addPlan:function(){
+					this.cardState='block'
 				},
-				cancel:function(){
-					this.cardState='none';
-					this.addState='none';
-					this.editState='none';
-				},
-				add:function(){
+				// add:function(){
+				// 	var state=0;
+				// 	if(this.notice==true){
+				// 		state=1;
+				// 	}
+				// 	$.ajax({
+				// 		type: 'POST',
+				// 		url: '../api/api.php',
+				// 		data:{type:'add',id:this.userid,time:this.time,content:this.content,notice:state},
+				// 		dataType: 'json',
+				// 		success:function(msg){
+				// 			console.log(msg);
+				// 		}
+				// 	})
+				// },
+				// deleteSchedule:function(){
+				// 	$.ajax({
+				// 		type: 'POST',
+				// 		url: '../api/api.php',
+				// 		data:{type:'delete'},
+				// 		dataType: 'json',
+				// 		success:function(msg){
+				// 			console.log(msg);
+				// 		}
+				// 	})
+				// },
+				// finish:function(id){
+
+				// 	$.ajax({
+				// 		type: 'POST',
+				// 		url: '../api/api.php',
+				// 		data:{type:'finish',id:id,userid:this.userid},
+				// 		dataType: 'json',
+				// 		success:function(msg){
+				// 			console.log(msg);
+				// 		}
+				// 	})
+				// },
+				unfinishOnload:function(){
 					var thisPage=this;
 					$.ajax({
 						type: 'POST',
-						url: '../api/teacherApi.php',
-						data:{type:'addProject',teacherId:this.userid,project:this.content},
+						url: '../api/api.php',
+						data: {type:'getSchedule',userid:this.userid},
 						dataType: 'json',
-						success:function(msg){
-							console.log(msg);
-							if(msg.code==0){
-								thisPage.cardState='none';
-								thisPage.addState='none';
-							}
-						}
-					})
-				},
-				addNotice:function(){
-					// $.ajax({
-					// 	type: 'POST',
-					// 	url: '../api/teacherApi.php',
-					// 	data:{type:'addProject',teacherId:'2013121212',project:'氧化锌ZnO的制备'},
-					// 	dataType: 'json',
-					// 	success:function(msg){
-					// 		console.log(msg);
-					// 	}
-					// })
-				},
-				getProject:function(){
-					var thisPage=this;
-					$.ajax({
-						type: 'POST',
-						url: '../api/teacherApi.php',
-						data:{type:'getProject',teacherId:this.userid,num:0},
-						dataType: 'json',
-						success:function(msg){
+						success: function(msg){
 							var len=msg.mes.length;
 							for(var i=0;i<len;i++){
-								var obj={'projectId':msg.mes[i]['projectid'],'projectName':msg.mes[i]['projectname']};
-								thisPage.projectArray.push(obj);
+								var obj={'time':msg.mes[i]['time'],'content':msg.mes[i]['content'],'scheduleId':msg.mes[i]['id']}
+								thisPage.listArray.push(obj);
 							}
-							console.log(thisPage.projectArray);
+							console.log(thisPage.listArray);
 						}
 					})
 				},
-				editProject:function(index){
-					this.cardState='block';
-					this.editState='block';
-					var thisPage=this;
-					var projectname='CuO纳米线的制备';
-					// console.log(index)
-					this.content=this.projectArray[index]['projectName'];
-					// $.ajax({
-					// 	type: 'POST',
-					// 	url: '../api/teacherApi.php',
-					// 	data:{type:'editProject',teacherId:this.userid,projectId:id,projectName:projectname},
-					// 	dataType: 'json',
-					// 	success:function(msg){
-					// 		console.log(msg);
-					// 		thisPage.cardState='none';
-					// 		thisPage.editState='none';
-					// 	}
-					// })
-				},
-				edit:function(id){
-					
-				},
-				deleteProject:function(id){
-					$.ajax({
-						type: 'POST',
-						url: '../api/teacherApi.php',
-						data:{type:'deleteProject',teacherId:this.userid,projectId:id},
-						dataType: 'json',
-						success:function(msg){
-							console.log(msg);
-						}
-					})
-				},
+				// finishOnload:function(){
+				// 	var thisPage=this;
+				// 	$.ajax({
+				// 		type: 'POST',
+				// 		url: '../api/api.php',
+				// 		data: {type:'getFinish',userid:this.userid},
+				// 		dataType: 'json',
+				// 		success: function(msg){
+				// 			var len=msg.mes.length;
+				// 			for(var i=0;i<len;i++){
+				// 				var obj={'time':msg.mes[i]['time'],'content':msg.mes[i]['content'],'scheduleId':msg.mes[i]['id']}
+				// 				thisPage.finishArray.push(obj);
+				// 			}
+				// 			console.log(thisPage.finishArray);
+				// 		}
+				// 	})
+				// },
 				GoHome:function(){
 					window.location.href='home.html'
 				},				
 				GoNote:function(){
 					window.location.href='note.html'
 				}
+				
 			}
 		});
 		Page.getUser();
-		Page.getProject();
+		Page.unfinishOnload();
+		// Page.finishOnload();
 </script>
 <script type="text/javascript" src='../src/common.js'></script>
 </html>

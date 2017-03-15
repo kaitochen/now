@@ -16,6 +16,9 @@ switch ($type) {
 	case 'editProject':
 		editProject();
 	break;
+	case 'deleteProject':
+		deleteProject();
+	break;
 }
 function signIn(){
 	include_once('config.php');
@@ -118,7 +121,7 @@ function getProject(){
 	$con=mysqli_connect($server,$myname,$mypsw,'now');
 	mysqli_query($con,'set names "utf8"');
 	if($con){
-		$sql='SELECT * FROM `project` WHERE `teacherid`="'.$teacherId.'"';
+		$sql='SELECT * FROM `project` WHERE `teacherid`="'.$teacherId.'" ORDER BY `projectid` DESC';
 		$result=mysqli_query($con,$sql);
 		$row=mysqli_fetch_object($result);
 		if(is_object($row)){
@@ -145,25 +148,46 @@ function getProject(){
 }	
 function editProject(){
 	include_once('config.php');
-		$id=$_POST['projectId'];
-		$teacherid=$_POST['teacherId'];
-		$projectname=$_POST['projectName'];
-		// $time=$_POST['time'];
-		// $content=$_POST['content'];
-		// $notice=$_POST['notice'];
-		$con=mysqli_connect($server,$myname,$mypsw,'now');
-		mysqli_query($con,'set names "utf8"');
-		if($con){
-			$sql='UPDATE `project` SET `projectname`="'.$projectname.'" WHERE `teacherid`="'.$teacherid.'" AND projectid="'.$id.'"' ;
-			$insertResult=mysqli_query($con,$sql);
-			if($insertResult==true){
-				$mes= array('code' => 0, 'mes'=> '修改成功');
-				echo json_encode($mes);
-			}else if($insertResult==false){
-				$mes=array('code'=>1,'mes'=>'修改失败');
-			}
-		}else{
-			mysqli_close();
-			echo 'connect error';
+	$id=$_POST['projectId'];
+	$teacherid=$_POST['teacherId'];
+	$projectname=$_POST['projectName'];
+	// $time=$_POST['time'];
+	// $content=$_POST['content'];
+	// $notice=$_POST['notice'];
+	$con=mysqli_connect($server,$myname,$mypsw,'now');
+	mysqli_query($con,'set names "utf8"');
+	if($con){
+		$sql='UPDATE `project` SET `projectname`="'.$projectname.'" WHERE `teacherid`="'.$teacherid.'" AND projectid="'.$id.'"' ;
+		$insertResult=mysqli_query($con,$sql);
+		if($insertResult==true){
+			$mes= array('code' => 0, 'mes'=> '修改成功');
+			echo json_encode($mes);
+		}else if($insertResult==false){
+			$mes=array('code'=>1,'mes'=>'修改失败');
 		}
+	}else{
+		mysqli_close();
+		echo 'connect error';
+	}
 }
+function deleteProject(){
+	include_once('config.php');
+	$id=$_POST['projectId'];
+	$teacherId=$_POST['teacherId'];
+	$con=mysqli_connect($server,$myname,$mypsw,'now');
+	mysqli_query($con,'set names "utf8"');
+	if($con){
+		$sql='DELETE FROM `project` WHERE `projectid`="'.$id.'" AND `teacherid`="'.$teacherId.'"';
+		$result=mysqli_query($con,$sql);
+		if($result==true){
+			$mes=array('code'=>0,'mes'=>'删除成功');
+			echo json_encode($mes);
+		}else if($result==false){
+			$mes=array('code'=>1,'mes'=>'删除失败');
+		}
+
+	}else{
+		mysqli_close();
+		echo 'connect fail';
+	}
+}	
