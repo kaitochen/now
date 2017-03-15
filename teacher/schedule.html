@@ -65,11 +65,11 @@
 			background-color: #fff;
 		}
 		.listBtn>div{
-			width: 0.6rem;
-			height: 0.6rem;
+			width: 0.7rem;
+			height: 0.7rem;
 			margin: 0.4rem;
-			border-radius: 0.35rem;
-			border: 0.05rem solid #87ceff;
+			background-image: url('../img/edit.png');
+			background-size: 100% 100%;
 		}
 		.listContent{
 			float: left;
@@ -315,13 +315,13 @@
 			data:{
 				name: '123',
 				projectArray: [],
-				finishArray: [],
 				userid:'',
 				num:1,
 				cardState:'none',
 				content:'',
 				addState:'none',
-				editState:'none'
+				editState:'none',
+				thisIndex:''
 			},
 			methods:{
 				getUser:function(){
@@ -383,24 +383,32 @@
 				editProject:function(index){
 					this.cardState='block';
 					this.editState='block';
-					var thisPage=this;
-					var projectname='CuO纳米线的制备';
+					// var thisPage=this;
+					// var projectname='CuO纳米线的制备';
 					// console.log(index)
 					this.content=this.projectArray[index]['projectName'];
-					// $.ajax({
-					// 	type: 'POST',
-					// 	url: '../api/teacherApi.php',
-					// 	data:{type:'editProject',teacherId:this.userid,projectId:id,projectName:projectname},
-					// 	dataType: 'json',
-					// 	success:function(msg){
-					// 		console.log(msg);
-					// 		thisPage.cardState='none';
-					// 		thisPage.editState='none';
-					// 	}
-					// })
+					this.thisIndex=index;
+					// this.edit(projectid);
 				},
-				edit:function(id){
-					
+				edit:function(){
+					var projectname=this.content;
+					var thisPage=this;
+					var projectId=this.projectArray[this.thisIndex]['projectId'];
+					 $.ajax({
+						type: 'POST',
+						url: '../api/teacherApi.php',
+						data:{type:'editProject',teacherId:this.userid,projectId:projectId,projectName:projectname},
+						dataType: 'json',
+						success:function(msg){
+							console.log(msg);
+							if(msg.code==0){
+								thisPage.projectArray[thisPage.thisIndex]['projectName']=thisPage.content;
+								thisPage.cardState='none';
+								thisPage.editState='none';
+							}
+							
+						}
+					})
 				},
 				deleteProject:function(id){
 					$.ajax({
